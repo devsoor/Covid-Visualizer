@@ -2,11 +2,13 @@ import React, {useState, useEffect} from 'react';
 import * as d3 from 'd3';
 import { geoAlbersUsa, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
+import moment from 'moment';
 import { Row, Col, Container} from 'reactstrap';
 import statesCoordsCSV from '../assets/data/statelatlong.csv';
 import CurrentUSData from '../components/CurrentUSData';
 
-// const statesCoords = [];
+// const today = moment.utc().toDate().local().format("MMM  DD, YYYY");
+
 const USAMap = () => {
     const width = 975;
     const height = 610;
@@ -43,7 +45,7 @@ const USAMap = () => {
                     return;
                 }
                 response.json().then(data => {
-                    console.log("covid data = ", data)
+                    console.log("states current data = ", data)
                     setStatesCurrentData(data);
                 })
             })
@@ -55,7 +57,7 @@ const USAMap = () => {
                     return;
                 }
                 response.json().then(data => {
-                    console.log("covid data = ", data)
+                    console.log("states daily data = ", data)
                     setStatesDailyData(data);
                 })
             })
@@ -103,6 +105,9 @@ const USAMap = () => {
 
     return (
         <Container className="mt-4">
+            <Row>
+                {/* <h3> Covid-19 status as of: {today}</h3> */}
+            </Row>
             <Row>
                 <CurrentUSData currentUSData={currentUSData}/>
             </Row>
