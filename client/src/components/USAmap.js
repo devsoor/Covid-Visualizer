@@ -13,7 +13,6 @@ const USAMap = () => {
     const height = 610;
     const [geography, setGeography] = useState([]);
     const [mapType, setType] = useState("states");
-    const [covidData, setCovidData] = useState([]);
     const [statesDailyData, setStatesDailyData] = useState([]);
     const [statesCurrentData, setStatesCurrentData] = useState([]);
     const [currentUSData, setCurrentUSData] = useState({});
