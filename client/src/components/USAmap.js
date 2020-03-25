@@ -6,7 +6,8 @@ import moment from 'moment';
 import { Row, Col, Container, Card, CardBody, CardTitle} from 'reactstrap';
 import statesCoordsCSV from '../assets/data/statelatlong.csv';
 import CurrentUSData from '../components/CurrentUSData';
-import BarGraph from '../components/BarGraph'
+import BarGraph from '../components/BarGraph';
+import StateGraph from '../components/StateGraph';
 
 const USAMap = () => {
     const today = moment().format("MMM  DD, YYYY");
@@ -18,6 +19,7 @@ const USAMap = () => {
     const [statesCurrentData, setStatesCurrentData] = useState([]);
     const [currentUSData, setCurrentUSData] = useState({});
     const [statesCoords, setStatesCoords] = useState([]);
+    const [stateClicked, setStateClicked] = useState("");
     
     const randomColorGenerator = () => { 
         return '#' + (Math.random().toString(16) + '0000000').slice(4, 8); 
@@ -119,21 +121,17 @@ const USAMap = () => {
     const getLongLat = (state) => {
         const stateInfo = statesCoords.find(({State}) => State === state);
         if (!stateInfo) {
-            // console.log(`getLongLat: long lat not found for ${state}. Returning null`)
             return null;
         }
         return [stateInfo.Longitude, stateInfo.Latitude];
     }
     
     const handleClick = countryIndex => {
-        console.log("geography = ", geography)
-        console.log("handleClick: statesCoords = ", statesCoords)
-        console.log("Clicked on state: ", geography[countryIndex].properties.name)
-        console.log("Clicked on state object: ", geography[countryIndex])
+        setStateClicked(geography[countryIndex].properties.name);
     }
 
-    const handleMarkerClick = i => {
-        console.log("Marker: ", geography[i])
+    const handleMarkerClick = countryIndex => {
+        setStateClicked(geography[countryIndex].properties.name);
     }
 
     return (
@@ -151,7 +149,7 @@ const USAMap = () => {
                         {
                             geography.map((d,i) => (
                             <path
-                                key={ `path-${ i }` }
+                                key={ `path-${ i }` }n
                                 d={ geoPath().projection(projection)(d) }
                                 className={mapType}
                                 fill={ `rgba(128,128,128,${ 1 / geography.length * i})` }
@@ -195,6 +193,9 @@ const USAMap = () => {
                         </g>
                     </svg>                    
                 </Col>
+            </Row>
+            <Row>
+                <StateGraph stateClicked={stateClicked} statesDailyData={statesDailyData}/>
             </Row>
             <Row>
                 <BarGraph statesCurrentData={statesCurrentData} statesCoords={statesCoords}/>
