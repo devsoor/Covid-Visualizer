@@ -6,6 +6,7 @@ import moment from 'moment';
 import { Row, Col, Container, Card, CardBody, CardTitle} from 'reactstrap';
 import statesCoordsCSV from '../assets/data/statelatlong.csv';
 import CurrentUSData from '../components/CurrentUSData';
+import BarGraph from '../components/BarGraph'
 
 const USAMap = () => {
     const today = moment().format("MMM  DD, YYYY");
@@ -194,6 +195,9 @@ const USAMap = () => {
                         </g>
                     </svg>                    
                 </Col>
+            </Row>
+            <Row>
+                <BarGraph statesCurrentData={statesCurrentData} statesCoords={statesCoords}/>
             </Row>
         </Container>
     )
