@@ -1,10 +1,12 @@
 import React from 'react';
 import USAMap from './components/USAmap';
-import './App.css';
+import { Container } from 'reactstrap';
 
 function App() {
   return (
-    <USAMap/>
+    <Container fluid>
+      <USAMap/>
+    </Container>
   );
 }
 

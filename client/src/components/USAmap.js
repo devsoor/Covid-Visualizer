@@ -3,13 +3,12 @@ import * as d3 from 'd3';
 import { geoAlbersUsa, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 import moment from 'moment';
-import { Row, Col, Container} from 'reactstrap';
+import { Row, Col, Container, Nav, Navbar, NavbarBrand} from 'reactstrap';
 import statesCoordsCSV from '../assets/data/statelatlong.csv';
 import CurrentUSData from '../components/CurrentUSData';
 
-// const today = moment.utc().toDate().local().format("MMM  DD, YYYY");
-
 const USAMap = () => {
+    const today = moment().format("MMM  DD, YYYY");
     const width = 975;
     const height = 610;
     const [geography, setGeography] = useState([]);
@@ -19,10 +18,16 @@ const USAMap = () => {
     const [statesCurrentData, setStatesCurrentData] = useState([]);
     const [currentUSData, setCurrentUSData] = useState({});
     const [statesCoords, setStatesCoords] = useState([]);
-      
+    
+    const randomColorGenerator = () => { 
+        return '#' + (Math.random().toString(16) + '0000000').slice(4, 8); 
+    };
+
     const projection = geoAlbersUsa()
         .scale(1300)
         .translate([ width/2, height/2])
+
+    const color = d3.scaleQuantize([1, 10], d3.schemeBlues[9])
 
     useEffect(() => {
         fetch("https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json")
@@ -86,6 +91,13 @@ const USAMap = () => {
             })
     }, [])
 
+    const normalize = (min, max, value) => {
+        // console.log("normalize: min, max, value = ", min, max, value)
+        const result = ((value - min) / (max - min));
+        // console.log("normalize result = ", result)
+        return result;
+    }
+
     const getLongLat = (state) => {
         const stateInfo = statesCoords.find(({State}) => State === state);
         if (!stateInfo) return null;
@@ -105,9 +117,10 @@ const USAMap = () => {
 
     return (
         <Container className="mt-4">
-            <Row>
-                {/* <h3> Covid-19 status as of: {today}</h3> */}
-            </Row>
+            <Navbar light expand="md">
+                <NavbarBrand className="text-grey">COVID-19 Status as of {today}</NavbarBrand>
+            </Navbar>
+        
             <Row>
                 <CurrentUSData currentUSData={currentUSData}/>
             </Row>
@@ -121,7 +134,7 @@ const USAMap = () => {
                                 key={ `path-${ i }` }
                                 d={ geoPath().projection(projection)(d) }
                                 className={mapType}
-                                fill={ `rgba(10,200,200,${ 1 / geography.length * i})` }
+                                fill={ `rgba(135,206,250,${ 1 / geography.length * i})` }
                                 stroke="#FFFFFF"
                                 strokeWidth={ 0.5 }
                                 onClick={ () => handleClick(i) }
@@ -137,11 +150,24 @@ const USAMap = () => {
                                     key={ `marker-${i}` }
                                     cx={ getLongLat(s.state) && projection(getLongLat(s.state))[0] }
                                     cy={ getLongLat(s.state) &&  projection(getLongLat(s.state))[1] }
-                                    r={ 10 }
+                                    r={ Math.log(s.positive) }
                                     fill="#E91E63"
                                     stroke="#FFFFFF"
                                     onClick={ () => handleMarkerClick(i) }
                                 />
+                                ))
+                        }
+                        </g>
+                        <g className="markers">
+                        {
+                            statesCoords.length > 0 && statesCurrentData.map((s, i) => (
+                                <text
+                                    font-size="smaller"
+                                    x={ getLongLat(s.state) && projection(getLongLat(s.state))[0] }
+                                    y={ getLongLat(s.state) && projection(getLongLat(s.state))[1] }
+                                >
+                                    {s.state}-{s.positive}
+                                </text>
                             ))
                         }
                         </g>
