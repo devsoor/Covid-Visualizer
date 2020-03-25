@@ -98,9 +98,30 @@ const USAMap = () => {
         return result;
     }
 
+    const normlaizeLog = (state, value) => {
+        if (Math.log2(value) == "-Infinity") {
+            // console.log("normlaizeLog: -Infinity found for state ", state)
+        } else {
+            return Math.log2(value);
+        }
+    }
+
+    const validateState = (state) => {
+        const stateInfo = statesCoords.find(({State}) => State === state)
+        if (!stateInfo) {
+            // console.log(`validateState: long lat not found for ${state}. Returning null`)
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     const getLongLat = (state) => {
         const stateInfo = statesCoords.find(({State}) => State === state);
-        if (!stateInfo) return null;
+        if (!stateInfo) {
+            // console.log(`getLongLat: long lat not found for ${state}. Returning null`)
+            return null;
+        }
         return [stateInfo.Longitude, stateInfo.Latitude];
     }
     
@@ -146,11 +167,11 @@ const USAMap = () => {
                         <g className="markers">
                         {
                             statesCoords.length > 0 && statesCurrentData.map((s, i) => (
-                                <circle
+                                validateState(s.state) && <circle
                                     key={ `marker-${i}` }
-                                    cx={ getLongLat(s.state) && projection(getLongLat(s.state))[0] }
-                                    cy={ getLongLat(s.state) &&  projection(getLongLat(s.state))[1] }
-                                    r={ Math.log(s.positive) }
+                                    cx={  projection(getLongLat(s.state))[0] }
+                                    cy={ projection(getLongLat(s.state))[1] }
+                                    r={ normlaizeLog(s.state, s.positive) }
                                     fill="#E91E63"
                                     stroke="#FFFFFF"
                                     onClick={ () => handleMarkerClick(i) }
@@ -161,12 +182,14 @@ const USAMap = () => {
                         <g className="markers">
                         {
                             statesCoords.length > 0 && statesCurrentData.map((s, i) => (
-                                <text
-                                    font-size="smaller"
+                                <text key={i}
+                                    fontSize="smaller"
                                     x={ getLongLat(s.state) && projection(getLongLat(s.state))[0] }
                                     y={ getLongLat(s.state) && projection(getLongLat(s.state))[1] }
                                 >
-                                    {s.state}-{s.positive}
+                                    {/* <tspan x={ getLongLat(s.state) && projection(getLongLat(s.state))[0] } dy="1.2em">{s.state}</tspan>
+                                    <tspan x={ getLongLat(s.state) && projection(getLongLat(s.state))[0] } dy="1.2em">{s.positive}</tspan> */}
+                                    <tspan>{s.state}-</tspan><tspan>{s.positive}</tspan>
                                 </text>
                             ))
                         }
