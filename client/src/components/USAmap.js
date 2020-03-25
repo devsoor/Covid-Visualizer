@@ -139,7 +139,7 @@ const USAMap = () => {
         <Container>
             <Row>
             <CardTitle className="bg-light mt-3 mb-3 text-grey">
-                COVID-19 Status as of {today}
+                COVID-19 Tests and Results as of {today}
             </CardTitle>
                 <CurrentUSData currentUSData={currentUSData}/>
             </Row>
@@ -153,7 +153,7 @@ const USAMap = () => {
                                 key={ `path-${ i }` }
                                 d={ geoPath().projection(projection)(d) }
                                 className={mapType}
-                                fill={ `rgba(135,206,250,${ 1 / geography.length * i})` }
+                                fill={ `rgba(128,128,128,${ 1 / geography.length * i})` }
                                 stroke="#FFFFFF"
                                 strokeWidth={ 0.5 }
                                 onClick={ () => handleClick(i) }
