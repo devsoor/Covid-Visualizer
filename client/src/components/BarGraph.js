@@ -90,11 +90,6 @@ const BarGraph = (props) => {
                       }
                   ]
               },
-              'layout': {
-                  'padding': {
-                      'top': 80
-                  }
-              }
             }}
         />
       </div>
