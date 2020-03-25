@@ -19,7 +19,7 @@ const USAMap = () => {
     const [statesCurrentData, setStatesCurrentData] = useState([]);
     const [currentUSData, setCurrentUSData] = useState({});
     const [statesCoords, setStatesCoords] = useState([]);
-    const [stateClicked, setStateClicked] = useState("");
+    const [stateClicked, setStateClicked] = useState("Washington");
     
     const randomColorGenerator = () => { 
         return '#' + (Math.random().toString(16) + '0000000').slice(4, 8); 
