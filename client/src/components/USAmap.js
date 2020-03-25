@@ -184,8 +184,6 @@ const USAMap = () => {
                                     x={ getLongLat(s.state) && projection(getLongLat(s.state))[0] }
                                     y={ getLongLat(s.state) && projection(getLongLat(s.state))[1] }
                                 >
-                                    {/* <tspan x={ getLongLat(s.state) && projection(getLongLat(s.state))[0] } dy="1.2em">{s.state}</tspan>
-                                    <tspan x={ getLongLat(s.state) && projection(getLongLat(s.state))[0] } dy="1.2em">{s.positive}</tspan> */}
                                     <tspan>{s.state}-</tspan><tspan>{s.positive}</tspan>
                                 </text>
                             ))
