@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import { geoAlbersUsa, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 import moment from 'moment';
-import { Row, Col, Container, Nav, Navbar, NavbarBrand} from 'reactstrap';
+import { Row, Col, Container, Card, CardBody, CardTitle} from 'reactstrap';
 import statesCoordsCSV from '../assets/data/statelatlong.csv';
 import CurrentUSData from '../components/CurrentUSData';
 
@@ -136,12 +136,11 @@ const USAMap = () => {
     }
 
     return (
-        <Container className="mt-4">
-            <Navbar light expand="md">
-                <NavbarBrand className="text-grey">COVID-19 Status as of {today}</NavbarBrand>
-            </Navbar>
-        
+        <Container>
             <Row>
+            <CardTitle className="bg-light mt-3 mb-3 text-grey">
+                COVID-19 Status as of {today}
+            </CardTitle>
                 <CurrentUSData currentUSData={currentUSData}/>
             </Row>
             <Row>

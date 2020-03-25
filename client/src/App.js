@@ -4,7 +4,7 @@ import { Container } from 'reactstrap';
 
 function App() {
   return (
-    <Container fluid>
+    <Container fluid className="bg-light text-dark">
       <USAMap/>
     </Container>
   );
