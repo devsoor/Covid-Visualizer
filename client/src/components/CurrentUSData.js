@@ -16,7 +16,7 @@ const CurrentUSData = (props) => {
               <CardBody>
                 <div className="d-flex flex-row">
                   <div className="round align-self-center round-success">
-                    <i className="mdi mdi-library-plus" />
+                    <i className="fas fa-plus-square" />
                   </div>
                   <div className="ml-2 align-self-center">
                     <h4 className="mb-0 text-white">{positiveTests}</h4>
@@ -31,8 +31,8 @@ const CurrentUSData = (props) => {
             <Card className="bg-danger">
               <CardBody>
                 <div className="d-flex flex-row">
-                  <div className="round align-self-center round-danger">
-                    <i className="mdi mdi-cellphone-link" />
+                  <div className="round align-self-center round-warning">
+                    <i className="fas fa-minus-circle" />
                   </div>
                   <div className="ml-2 align-self-center">
                     <h4 className="mb-0 text-white">{negativeTests}</h4>
@@ -47,8 +47,8 @@ const CurrentUSData = (props) => {
             <Card className="bg-warning">
               <CardBody>
                 <div className="d-flex flex-row">
-                  <div className="round align-self-center round-warning">
-                    <i className="mdi mdi-cart-outline" />
+                  <div className="round align-self-center round-info">
+                    <i className="fas fa-hospital-symbol" />
                   </div>
                   <div className="ml-2 align-self-center">
                     <h3 className="mb-0 text-white">{hospitalizedTests}</h3>
@@ -63,8 +63,8 @@ const CurrentUSData = (props) => {
             <Card className="bg-dark">
               <CardBody>
                 <div className="d-flex flex-row">
-                  <div className="round align-self-center round-dark">
-                    <i className="mdi mdi-bullseye" />
+                  <div className="round align-self-center round-danger">
+                    <i className="fas fa-heartbeat" />
                   </div>
                   <div className="ml-2 align-self-center">
                     <h4 className="mb-0 text-white">{deaths}</h4>
@@ -79,8 +79,8 @@ const CurrentUSData = (props) => {
             <Card className="bg-primary">
               <CardBody>
                 <div className="d-flex flex-row">
-                  <div className="round align-self-center round-primary">
-                    <i className="mdi mdi-bullseye" />
+                  <div className="round align-self-center round-warning">
+                    <i className="fas fa-square-full"/>
                   </div>
                   <div className="ml-2 align-self-center">
                     <h4 className="mb-0 text-white">{totalCases}</h4>
