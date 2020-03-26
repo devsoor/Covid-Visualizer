@@ -19,7 +19,7 @@ const USAMap = () => {
     const [statesCurrentData, setStatesCurrentData] = useState([]);
     const [currentUSData, setCurrentUSData] = useState({});
     const [statesCoords, setStatesCoords] = useState([]);
-    const [stateClicked, setStateClicked] = useState("Washington");
+    const [stateClicked, setStateClicked] = useState("WA");
     
     const randomColorGenerator = () => { 
         return '#' + (Math.random().toString(16) + '0000000').slice(4, 8); 
@@ -127,11 +127,15 @@ const USAMap = () => {
     }
     
     const handleClick = countryIndex => {
-        setStateClicked(geography[countryIndex].properties.name);
+        const stateName = (geography[countryIndex].properties.name);
+        const stateAbbr = statesCoords.find(({Name}) => Name === stateName)
+        setStateClicked(stateAbbr.State);
     }
 
     const handleMarkerClick = countryIndex => {
-        setStateClicked(geography[countryIndex].properties.name);
+        const stateName = (geography[countryIndex].properties.name);
+        const stateAbbr = statesCoords.find(({Name}) => Name === stateName)
+        setStateClicked(stateAbbr.State);
     }
 
     return (
