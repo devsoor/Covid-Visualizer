@@ -4,7 +4,7 @@ import { geoAlbersUsa, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 import moment from 'moment';
 import {Card, CardBody, Container, Input, Row, Col, Button, ButtonGroup,
-        UncontrolledTooltip, Navbar, NavItem, NavbarBrand, Nav, CardFooter
+        UncontrolledTooltip, Navbar, NavItem, NavbarBrand, Nav, CardFooter, NavbarText
     } from 'reactstrap';
 
 import statesCoordsCSV from '../assets/data/statelatlong.csv';
@@ -12,7 +12,10 @@ import CurrentUSData from '../components/CurrentUSData';
 import BarGraph from '../components/BarGraph';
 import LineGraph from '../components/LineGraph';
 import StateGraph from '../components/StateGraph';
-import covidImg from '../assets/images/covid19.jpg';
+import covidImg from '../assets/images/covid/covid19.jpg';
+import doctorImg from '../assets/images/covid/doctor.png';
+import handwash1Img from '../assets/images/covid/handwash1.png';
+import handwash2Img from '../assets/images/covid/handwash2.png';
 
 const USAMap = () => {
     const today = moment().format("MMM  DD, YYYY");
@@ -152,17 +155,24 @@ const USAMap = () => {
 
     return (
         <Container>
-            <Navbar color="light" light expand="md">
-                <NavbarBrand>
+            <Navbar color="light" light expand="md" className="p-3">
+                <Col sm={2}>
                         <img src={covidImg} width="100" height="60"></img>
-                </NavbarBrand>
-                <Nav>
-                    <NavItem>
-                        <h3 className="text-dark  p-3">
-                            COVID-19 Tests and Results as of {today}
-                        </h3>
-                    </NavItem>
-                </Nav>
+                </Col>
+                <Col sm={10}>
+                    <Row>
+                        <Col sm={9}>
+                            <h3 className="text-dark  p-3">
+                                COVID-19 Tests and Results as of {today}
+                            </h3>
+                        </Col>
+                        <Col sm={3}>
+                            <img src={doctorImg} width="40" height="40"></img>
+                            <img src={handwash1Img} width="40" height="40"></img>
+                            <img src={handwash2Img} width="40" height="40"></img>
+                        </Col>
+                    </Row>
+                </Col>
             </Navbar>
             <Row>
                 <Col>
