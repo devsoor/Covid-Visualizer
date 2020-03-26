@@ -60,7 +60,7 @@ const CurrentUSData = (props) => {
           </Col>
   
           <Col>
-            <Card className="bg-dark">
+            <Card className="bg-secondary">
               <CardBody>
                 <div className="d-flex flex-row">
                   <div className="round align-self-center round-danger">

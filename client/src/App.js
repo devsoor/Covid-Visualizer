@@ -4,9 +4,9 @@ import { Container } from 'reactstrap';
 
 function App() {
   return (
-    <Container fluid className="bg-dark text-dark">
-      <USAMap/>
-    </Container>
+      <Container fluid className="bg-dark text-dark">
+        <USAMap/>
+      </Container>
   );
 }
 

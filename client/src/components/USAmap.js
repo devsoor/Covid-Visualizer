@@ -3,13 +3,16 @@ import * as d3 from 'd3';
 import { geoAlbersUsa, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 import moment from 'moment';
-import {Card, CardBody, Container, Input, Row, Col, Button, ButtonGroup, UncontrolledTooltip} from 'reactstrap';
+import {Card, CardBody, Container, Input, Row, Col, Button, ButtonGroup,
+        UncontrolledTooltip, Navbar, NavItem, NavbarBrand, Nav, CardFooter
+    } from 'reactstrap';
 
 import statesCoordsCSV from '../assets/data/statelatlong.csv';
 import CurrentUSData from '../components/CurrentUSData';
 import BarGraph from '../components/BarGraph';
 import LineGraph from '../components/LineGraph';
 import StateGraph from '../components/StateGraph';
+import covidImg from '../assets/images/covid19.jpg';
 
 const USAMap = () => {
     const today = moment().format("MMM  DD, YYYY");
@@ -149,14 +152,23 @@ const USAMap = () => {
 
     return (
         <Container>
+            <Navbar color="light" light expand="md">
+                <NavbarBrand>
+                        <img src={covidImg} width="100" height="60"></img>
+                </NavbarBrand>
+                <Nav>
+                    <NavItem>
+                        <h3 className="text-dark  p-3">
+                            COVID-19 Tests and Results as of {today}
+                        </h3>
+                    </NavItem>
+                </Nav>
+            </Navbar>
             <Row>
                 <Col>
                     <Card>
                         <CardBody>
                                 <Row className="justify-content-center">
-                                    <h3 className="text-dark  p-3">
-                                        COVID-19 Tests and Results as of {today}
-                                    </h3>
                                     <CurrentUSData currentUSData={currentUSData}/>
                                 </Row>
                         </CardBody>
@@ -252,7 +264,11 @@ const USAMap = () => {
                 }
                 
             </Row>
-        </Container>
+            <Card>
+                <CardFooter className="text-muted">* Source: <a href="https://covidtracking.com/">COVID Tracking Project</a></CardFooter>
+            </Card>
+      
+      </Container>
     )
 }
 
