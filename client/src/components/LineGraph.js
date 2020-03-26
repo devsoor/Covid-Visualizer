@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {Card, CardBody, Col, Button, ButtonGroup, UncontrolledTooltip} from 'reactstrap';
-import {Bar} from 'react-chartjs-2';
+import {Line} from 'react-chartjs-2';
 import 'chartjs-plugin-datalabels';
 
 
-const BarGraph = (props) => {
+const LineGraph = (props) => {
   const {statesCurrentData, statesCoords} = props
   
   const getStateName = () => {
@@ -49,7 +49,7 @@ const BarGraph = (props) => {
       <Card>
         <CardBody>
         <h2>Comparison By State</h2>
-        <Bar
+        <Line
             data={data}
             width={1200}
             height={500}
@@ -100,4 +100,4 @@ const BarGraph = (props) => {
       </Col>
   };
 
-export default BarGraph;
+export default LineGraph;

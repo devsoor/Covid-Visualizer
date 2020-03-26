@@ -3,10 +3,12 @@ import * as d3 from 'd3';
 import { geoAlbersUsa, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 import moment from 'moment';
-import { Row, Col, Container, Card, CardBody, CardTitle} from 'reactstrap';
+import {Card, CardBody, Container, Input, Row, Col, Button, ButtonGroup, UncontrolledTooltip} from 'reactstrap';
+
 import statesCoordsCSV from '../assets/data/statelatlong.csv';
 import CurrentUSData from '../components/CurrentUSData';
 import BarGraph from '../components/BarGraph';
+import LineGraph from '../components/LineGraph';
 import StateGraph from '../components/StateGraph';
 
 const USAMap = () => {
@@ -20,6 +22,8 @@ const USAMap = () => {
     const [currentUSData, setCurrentUSData] = useState({});
     const [statesCoords, setStatesCoords] = useState([]);
     const [stateClicked, setStateClicked] = useState("WA");
+    const [stateListAbbr, setStateListAbbr] = useState([]);
+    const [graphType, setGraphType] = useState("bar");
     
     const randomColorGenerator = () => { 
         return '#' + (Math.random().toString(16) + '0000000').slice(4, 8); 
@@ -28,8 +32,6 @@ const USAMap = () => {
     const projection = geoAlbersUsa()
         .scale(1300)
         .translate([ width/2, height/2])
-
-    const color = d3.scaleQuantize([1, 10], d3.schemeBlues[9])
 
     useEffect(() => {
         fetch("https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json")
@@ -85,8 +87,11 @@ const USAMap = () => {
             d3.csv(statesCoordsCSV)
             .then((data) => {
                 setStatesCoords(data);
-                // statesCoords.push(data);
-                console.log("d3.csv: statesCoords = ", statesCoords)
+                data.map(s => {
+                    stateListAbbr.push(s.State);
+                    setStateListAbbr(stateListAbbr);
+                })
+                console.log("stateListAbbr: ", stateListAbbr)
             })
             .catch((err) => {
                 throw err;
@@ -138,69 +143,114 @@ const USAMap = () => {
         setStateClicked(stateAbbr.State);
     }
 
+    const handleChange = (e) => {
+        setStateClicked(e.target.value)
+    } 
+
     return (
         <Container>
             <Row>
-            <CardTitle className="bg-light mt-3 mb-3 text-grey">
-                COVID-19 Tests and Results as of {today}
-            </CardTitle>
-                <CurrentUSData currentUSData={currentUSData}/>
+                <Col>
+                    <Card>
+                        <CardBody>
+                                <Row className="justify-content-center">
+                                    <h3 className="text-dark  p-3">
+                                        COVID-19 Tests and Results as of {today}
+                                    </h3>
+                                    <CurrentUSData currentUSData={currentUSData}/>
+                                </Row>
+                        </CardBody>
+                    </Card>                 
+                </Col>
             </Row>
             <Row>
                 <Col>
-                    <svg width={ width } height={ height } viewBox="0 0 975 610">
-                        <g className="state-boundary">
-                        {
-                            geography.map((d,i) => (
-                            <path
-                                key={ `path-${ i }` }n
-                                d={ geoPath().projection(projection)(d) }
-                                className={mapType}
-                                fill={ `rgba(128,128,128,${ 1 / geography.length * i})` }
-                                stroke="#FFFFFF"
-                                strokeWidth={ 0.5 }
-                                onClick={ () => handleClick(i) }
-                            />
-                            ))
-                        }
-                        </g>
-             
-                        <g className="markers">
-                        {
-                            statesCoords.length > 0 && statesCurrentData.map((s, i) => (
-                                validateState(s.state) && <circle
-                                    key={ `marker-${i}` }
-                                    cx={  projection(getLongLat(s.state))[0] }
-                                    cy={ projection(getLongLat(s.state))[1] }
-                                    r={ normlaizeLog(s.state, s.positive) }
-                                    fill="#E91E63"
-                                    stroke="#FFFFFF"
-                                    onClick={ () => handleMarkerClick(i) }
-                                />
-                                ))
-                        }
-                        </g>
-                        <g className="markers">
-                        {
-                            statesCoords.length > 0 && statesCurrentData.map((s, i) => (
-                                <text key={i}
-                                    fontSize="smaller"
-                                    x={ getLongLat(s.state) && projection(getLongLat(s.state))[0] }
-                                    y={ getLongLat(s.state) && projection(getLongLat(s.state))[1] }
-                                >
-                                    <tspan>{s.state}-</tspan><tspan>{s.positive}</tspan>
-                                </text>
-                            ))
-                        }
-                        </g>
-                    </svg>                    
+                    <Card>
+                        <CardBody>
+                            <Row>
+                            <Col sm={10}>
+                            <svg width={ width } height={ height } viewBox="0 0 975 610">
+                                <g className="state-boundary">
+                                {
+                                    geography.map((d,i) => (
+                                    <path
+                                        key={ `path-${ i }` }n
+                                        d={ geoPath().projection(projection)(d) }
+                                        className={mapType}
+                                        fill={ `rgba(100,120,180,${ 1 / geography.length * i})` }
+                                        stroke="#FFFFFF"
+                                        strokeWidth={ 0.5 }
+                                        onClick={ () => handleClick(i) }
+                                    />
+                                    ))
+                                }
+                                </g>
+                    
+                                <g className="markers">
+                                {
+                                    statesCoords.length > 0 && statesCurrentData.map((s, i) => (
+                                        validateState(s.state) && <circle
+                                            key={ `marker-${i}` }
+                                            cx={  projection(getLongLat(s.state))[0] }
+                                            cy={ projection(getLongLat(s.state))[1] }
+                                            r={ normlaizeLog(s.state, s.positive) }
+                                            fill="#E91E63"
+                                            stroke="#FFFFFF"
+                                            onClick={ () => handleMarkerClick(i) }
+                                        />
+                                        ))
+                                }
+                                </g>
+                                <g className="markers">
+                                {
+                                    statesCoords.length > 0 && statesCurrentData.map((s, i) => (
+                                        <text key={i}
+                                            fontSize="smaller"
+                                            x={ getLongLat(s.state) && projection(getLongLat(s.state))[0] }
+                                            y={ getLongLat(s.state) && projection(getLongLat(s.state))[1] }
+                                        >
+                                            <tspan>{s.state}-</tspan><tspan>{s.positive}</tspan>
+                                        </text>
+                                    ))
+                                }
+                                </g>
+                            </svg> 
+                            </Col>  
+                            <Col sm={2}>
+                                <Input type="select" name="stateClicked" onChange={handleChange}>
+                                <option value="">Select State</option>
+                                    {stateListAbbr.map(option => <option key={option} value={option}>{option}</option>)}
+                                </Input>
+                            </Col>
+                            </Row>
+                        </CardBody>
+                    </Card>                 
                 </Col>
             </Row>
             <Row>
                 <StateGraph stateClicked={stateClicked} statesDailyData={statesDailyData}/>
             </Row>
+            <Row className="justify-content-center">
+               <ButtonGroup className="pull-right" >
+                    <UncontrolledTooltip placement="top" target="showBarGraph">
+                        One State
+                    </UncontrolledTooltip>
+                    <UncontrolledTooltip placement="top" target="showLineGraph">
+                    All States
+                    </UncontrolledTooltip>
+
+                    <Button id="showBarGraph" className="bg-primary text-white" outline style={{border:1}} onClick={()=> setGraphType("bar")}>Bar Graph</Button>
+                    <Button id="showLineGraph"  className="bg-success text-white" outline style={{border:1}} onClick={()=>setGraphType("line")}>Line Graph</Button>
+                </ButtonGroup>
+            </Row>
             <Row>
-                <BarGraph statesCurrentData={statesCurrentData} statesCoords={statesCoords}/>
+                {
+                    graphType == "bar" && <BarGraph statesCurrentData={statesCurrentData} statesCoords={statesCoords}/>
+                }
+                {
+                    graphType == "line" && <LineGraph statesCurrentData={statesCurrentData} statesCoords={statesCoords}/>
+                }
+                
             </Row>
         </Container>
     )
