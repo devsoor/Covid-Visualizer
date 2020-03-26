@@ -25,6 +25,7 @@ const USAMap = () => {
     const [mapType, setType] = useState("states");
     const [statesDailyData, setStatesDailyData] = useState([]);
     const [statesCurrentData, setStatesCurrentData] = useState([]);
+    const [statesTotalData, setStatesTotalData] = useState(0);
     const [currentUSData, setCurrentUSData] = useState({});
     const [statesCoords, setStatesCoords] = useState([]);
     const [stateClicked, setStateClicked] = useState("WA");
@@ -62,6 +63,11 @@ const USAMap = () => {
                 response.json().then(data => {
                     console.log("states current data = ", data)
                     setStatesCurrentData(data);
+                    let totalPositives = 0;
+                    data.map(s => {
+                        totalPositives += s.positive;
+                    })
+                    setStatesTotalData(totalPositives);
                 })
             })
 
@@ -97,7 +103,6 @@ const USAMap = () => {
                     stateListAbbr.push(s.State);
                     setStateListAbbr(stateListAbbr);
                 })
-                console.log("stateListAbbr: ", stateListAbbr)
             })
             .catch((err) => {
                 throw err;
@@ -179,7 +184,7 @@ const USAMap = () => {
                     <Card>
                         <CardBody>
                                 <Row className="justify-content-center">
-                                    <CurrentUSData currentUSData={currentUSData}/>
+                                    <CurrentUSData currentUSData={currentUSData} statesTotalData={statesTotalData}/>
                                 </Row>
                         </CardBody>
                     </Card>                 
@@ -189,68 +194,75 @@ const USAMap = () => {
                 <Col>
                     <Card>
                         <CardBody>
-                            <Row>
-                            <Col sm={10}>
-                            <svg width={ width } height={ height } viewBox="0 0 975 610">
-                                <g className="state-boundary">
-                                {
-                                    geography.map((d,i) => (
-                                    <path
-                                        key={ `path-${ i }` }n
-                                        d={ geoPath().projection(projection)(d) }
-                                        className={mapType}
-                                        fill={ `rgba(100,120,180,${ 1 / geography.length * i})` }
-                                        stroke="#FFFFFF"
-                                        strokeWidth={ 0.5 }
-                                        onClick={ () => handleClick(i) }
-                                    />
-                                    ))
-                                }
-                                </g>
-                    
-                                <g className="markers">
-                                {
-                                    statesCoords.length > 0 && statesCurrentData.map((s, i) => (
-                                        validateState(s.state) && <circle
-                                            key={ `marker-${i}` }
-                                            cx={  projection(getLongLat(s.state))[0] }
-                                            cy={ projection(getLongLat(s.state))[1] }
-                                            r={ normlaizeLog(s.state, s.positive) }
-                                            fill="#E91E63"
-                                            stroke="#FFFFFF"
-                                            onClick={ () => handleMarkerClick(i) }
-                                        />
-                                        ))
-                                }
-                                </g>
-                                <g className="markers">
-                                {
-                                    statesCoords.length > 0 && statesCurrentData.map((s, i) => (
-                                        <text key={i}
-                                            fontSize="smaller"
-                                            x={ getLongLat(s.state) && projection(getLongLat(s.state))[0] }
-                                            y={ getLongLat(s.state) && projection(getLongLat(s.state))[1] }
-                                        >
-                                            <tspan>{s.state}-</tspan><tspan>{s.positive}</tspan>
-                                        </text>
-                                    ))
-                                }
-                                </g>
-                            </svg> 
-                            </Col>  
-                            <Col sm={2}>
-                                <Input type="select" name="stateClicked" onChange={handleChange}>
-                                <option value="">Select State</option>
-                                    {stateListAbbr.map(option => <option key={option} value={option}>{option}</option>)}
-                                </Input>
-                            </Col>
+                            <Row className="justify-content-center">
+                                <Col sm={4}>
+                                    <p>Click on any state to get state level results or </p>
+                                </Col>
+                                <Col sm={3}>
+                                    <Input type="select" name="stateClicked" onChange={handleChange}>
+                                        <option value="">Select State</option>
+                                            {stateListAbbr.map(option => <option key={option} value={option}>{option}</option>)}
+                                    </Input>
+                                </Col>
                             </Row>
+                            <Row>
+                                <Col>
+                                    <svg width={ width } height={ height } viewBox="0 0 975 610">
+                                        <g className="state-boundary">
+                                        {
+                                            geography.map((d,i) => (
+                                            <path
+                                                key={ `path-${ i }` }
+                                                d={ geoPath().projection(projection)(d) }
+                                                className={mapType}
+                                                fill={ `rgba(100,120,180,${ 1 / geography.length * i})` }
+                                                stroke="#FFFFFF"
+                                                strokeWidth={ 0.5 }
+                                                onClick={ () => handleClick(i) }
+                                            />
+                                            ))
+                                        }
+                                        </g>
+                            
+                                        <g className="markers">
+                                        {
+                                            statesCoords.length > 0 && statesCurrentData.map((s, i) => (
+                                                validateState(s.state) && <circle
+                                                    key={ `marker-${i}` }
+                                                    cx={  projection(getLongLat(s.state))[0] }
+                                                    cy={ projection(getLongLat(s.state))[1] }
+                                                    r={ normlaizeLog(s.state, s.positive) }
+                                                    fill="#E91E63"
+                                                    stroke="#FFFFFF"
+                                                    onClick={ () => handleMarkerClick(i) }
+                                                />
+                                                ))
+                                        }
+                                        </g>
+                                        <g className="markers">
+                                        {
+                                            statesCoords.length > 0 && statesCurrentData.map((s, i) => (
+                                                <text key={i}
+                                                    fontSize="smaller"
+                                                    x={ getLongLat(s.state) && projection(getLongLat(s.state))[0] }
+                                                    y={ getLongLat(s.state) && projection(getLongLat(s.state))[1] }
+                                                >
+                                                    <tspan>{s.state}-</tspan><tspan>{s.positive}</tspan>
+                                                </text>
+                                            ))
+                                        }
+                                        </g>
+                                    </svg> 
+                                </Col>  
+                            </Row>
+                        </CardBody>
+                        <CardBody>
+                            <StateGraph stateClicked={stateClicked} statesDailyData={statesDailyData}/>
                         </CardBody>
                     </Card>                 
                 </Col>
             </Row>
             <Row>
-                <StateGraph stateClicked={stateClicked} statesDailyData={statesDailyData}/>
             </Row>
             <Row className="justify-content-center">
                <ButtonGroup className="pull-right" >

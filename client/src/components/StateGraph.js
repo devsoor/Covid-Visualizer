@@ -45,53 +45,49 @@ const StateGraph = (props) => {
     }
     
     return <Col>
-        <Card>
-            <CardBody>
-                    <h3>{stateClicked}: Growth over past 3 weeks</h3>
-                    <Line data={data}
-                    options={{
-                        plugins: {
-                          labels: false,
-                          clamp: true,
-                          datalabels: {
-                            align: 'end',
-                            anchor: 'end',
-                            rotation: 270,
-                            formatter: function(value, context) {
-                                    return (value.toLocaleString());
-                            },
-                            },
-                            borderRadius: 4,
-                            color: 'white',
-                            font: {
-                                weight: 'bold'
-                            },
+                <h3>{stateClicked}: Growth over past 3 weeks</h3>
+                <Line data={data}
+                options={{
+                    plugins: {
+                        labels: false,
+                        clamp: true,
+                        datalabels: {
+                        align: 'end',
+                        anchor: 'end',
+                        rotation: 270,
+                        formatter: function(value, context) {
+                                return (value.toLocaleString());
                         },
-                        maintainAspectRatio: true,
-                        'scales': {
-                          'xAxes': [
-                              {
-                                  'gridLines': { 'display': false },
-                                  'ticks': { 'fontFamily': 'Poppins', autoSkip: false },
-                        
-                              }
-                          ],
-                          'yAxes': [
-                              {
-                                  'gridLines': { 'display': true },
-                                  'ticks': { 
-                                        'fontFamily': 'Poppins',
-                                        callback: function(value, index, values) {
-                                          return (value.toLocaleString());
-                                        }
+                        },
+                        borderRadius: 4,
+                        color: 'white',
+                        font: {
+                            weight: 'bold'
+                        },
+                    },
+                    maintainAspectRatio: true,
+                    'scales': {
+                        'xAxes': [
+                            {
+                                'gridLines': { 'display': false },
+                                'ticks': { 'fontFamily': 'Poppins', autoSkip: false },
+                    
+                            }
+                        ],
+                        'yAxes': [
+                            {
+                                'gridLines': { 'display': true },
+                                'ticks': { 
+                                    'fontFamily': 'Poppins',
+                                    callback: function(value, index, values) {
+                                        return (value.toLocaleString());
                                     }
-                              }
-                          ]
-                      },
-                    }}
-                    />
-            </CardBody>
-        </Card>
+                                }
+                            }
+                        ]
+                    },
+                }}
+                />
         </Col>
 }
 

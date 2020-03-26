@@ -1,13 +1,20 @@
-import React from 'react';
-import { Col, Row, Card, CardBody } from 'reactstrap';
+import React, {useState} from 'react';
+import { Col, Row, Card, CardBody, Input } from 'reactstrap';
 
 const CurrentUSData = (props) => {
+    const [isChecked, setIsChecked] = useState(true);
+
     const data = props.currentUSData;
     const positiveTests = data.positive ? data.positive.toLocaleString() : 0;
     const negativeTests = data.negative ? data.negative.toLocaleString() : 0;
     const hospitalizedTests = data.hospitalized ? data.hospitalized.toLocaleString() : 0;
     const deaths = data.death ? data.death.toLocaleString() : 0;
-    const totalCases = data.total ? data.total.toLocaleString() : 0;
+    const totalWorldCases = data.total ? data.total.toLocaleString() : 0;
+    const statesTotalData = props.statesTotalData ? props.statesTotalData.toLocaleString() : 0;
+    
+    const toggleStats = () => {
+      setIsChecked(!isChecked);
+    }
 
     return (
         <Row>
@@ -20,7 +27,7 @@ const CurrentUSData = (props) => {
                   </div>
                   <div className="ml-2 align-self-center">
                     <h4 className="mb-0 text-white">{positiveTests}</h4>
-                    <h6 className="text-white op-5">Positive</h6>
+                    <small className="text-white op-5">Positive</small>
                   </div>
                 </div>
               </CardBody>
@@ -36,7 +43,7 @@ const CurrentUSData = (props) => {
                   </div>
                   <div className="ml-2 align-self-center">
                     <h4 className="mb-0 text-white">{negativeTests}</h4>
-                    <h6 className="text-white op-5">Negative</h6>
+                    <small className="text-white op-5">Negative</small>
                   </div>
                 </div>
               </CardBody>
@@ -52,7 +59,7 @@ const CurrentUSData = (props) => {
                   </div>
                   <div className="ml-2 align-self-center">
                     <h3 className="mb-0 text-white">{hospitalizedTests}</h3>
-                    <h6 className="text-white op-5">Hospitialized</h6>
+                    <small className="text-white op-5">Hospitialized</small>
                   </div>
                 </div>
               </CardBody>
@@ -68,7 +75,7 @@ const CurrentUSData = (props) => {
                   </div>
                   <div className="ml-2 align-self-center">
                     <h4 className="mb-0 text-white">{deaths}</h4>
-                    <h6 className="text-white op-5">Deaths</h6>
+                    <small className="text-white op-5">Deaths</small>
                   </div>
                 </div>
               </CardBody>
@@ -76,15 +83,15 @@ const CurrentUSData = (props) => {
           </Col>
 
           <Col>
-            <Card className="bg-primary">
+            <Card className="bg-primary" tag="a" onClick={toggleStats} style={{ cursor: "pointer" }}>
               <CardBody>
                 <div className="d-flex flex-row">
                   <div className="round align-self-center round-warning">
                     <i className="fas fa-square-full"/>
                   </div>
                   <div className="ml-2 align-self-center">
-                    <h4 className="mb-0 text-white">{totalCases}</h4>
-                    <h6 className="text-white op-5">TOTAL</h6>
+                    <h4 className="mb-0 text-white">{isChecked?statesTotalData:totalWorldCases}</h4>
+                    <small className="text-white op-5">{isChecked?"U.S.":"World"}</small>
                   </div>
                 </div>
               </CardBody>
