@@ -159,7 +159,7 @@ const USAMap = () => {
     return (
         <Container>
             <Navbar color="light" light expand="md" className="p-3">
-                <Col sm={2}>
+                <Col sm={3}>
                         <img src={covidImg} alt="COVID-19" width="100" height="60"></img>
                 </Col>
                 <Col sm={10}>
@@ -169,7 +169,7 @@ const USAMap = () => {
                                 COVID-19 Tests and Results as of {today}
                             </h3>
                         </Col>
-                        <Col sm={3}>
+                        <Col sm={3} className="mt-2">
                             <img src={doctorImg} alt="doctor" width="40" height="40"></img>
                             <img src={handwash1Img} alt="handwash1" width="40" height="40"></img>
                             <img src={handwash2Img} alt="handwash2" width="40" height="40"></img>
