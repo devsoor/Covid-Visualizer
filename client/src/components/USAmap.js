@@ -3,9 +3,7 @@ import * as d3 from 'd3';
 import { geoAlbersUsa, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 import moment from 'moment';
-import {Card, CardBody, Container, Input, Row, Col, Button, ButtonGroup,
-        UncontrolledTooltip, Navbar, NavItem, NavbarBrand, Nav, CardFooter, NavbarText
-    } from 'reactstrap';
+import {Card, CardBody, Container, Input, Row, Col, Button, ButtonGroup, Navbar, CardFooter} from 'reactstrap';
 
 import statesCoordsCSV from '../assets/data/statelatlong.csv';
 import CurrentUSData from '../components/CurrentUSData';
@@ -22,7 +20,7 @@ const USAMap = () => {
     const width = 975;
     const height = 610;
     const [geography, setGeography] = useState([]);
-    const [mapType, setType] = useState("states");
+    const [mapType,] = useState("states");
     const [statesDailyData, setStatesDailyData] = useState([]);
     const [statesCurrentData, setStatesCurrentData] = useState([]);
     const [statesTotalData, setStatesTotalData] = useState(0);
@@ -32,9 +30,9 @@ const USAMap = () => {
     const [stateListAbbr, setStateListAbbr] = useState([]);
     const [graphType, setGraphType] = useState("bar");
     
-    const randomColorGenerator = () => { 
-        return '#' + (Math.random().toString(16) + '0000000').slice(4, 8); 
-    };
+    // const randomColorGenerator = () => { 
+    //     return '#' + (Math.random().toString(16) + '0000000').slice(4, 8); 
+    // };
 
     const projection = geoAlbersUsa()
         .scale(1300)
@@ -48,7 +46,7 @@ const USAMap = () => {
                     return;
                 }
                 response.json().then(us => {
-                    console.log("response data = ", us)
+                    // console.log("response data = ", us)
                     setGeography(feature(us, us.objects.states).features);
                     
                 })
@@ -61,7 +59,7 @@ const USAMap = () => {
                     return;
                 }
                 response.json().then(data => {
-                    console.log("states current data = ", data)
+                    // console.log("states current data = ", data)
                     setStatesCurrentData(data);
                     let totalPositives = 0;
                     data.map(s => {
@@ -78,7 +76,7 @@ const USAMap = () => {
                     return;
                 }
                 response.json().then(data => {
-                    console.log("states daily data = ", data)
+                    // console.log("states daily data = ", data)
                     setStatesDailyData(data);
                 })
             })
@@ -90,7 +88,7 @@ const USAMap = () => {
                     return;
                 }
                 response.json().then(data => {
-                    console.log("current US data = ", data)
+                    // console.log("current US data = ", data)
                     setCurrentUSData(data[0]);
                 })
             })
@@ -109,15 +107,15 @@ const USAMap = () => {
             })
     }, [])
 
-    const normalize = (min, max, value) => {
-        // console.log("normalize: min, max, value = ", min, max, value)
-        const result = ((value - min) / (max - min));
-        // console.log("normalize result = ", result)
-        return result;
-    }
+    // const normalize = (min, max, value) => {
+    //     // console.log("normalize: min, max, value = ", min, max, value)
+    //     const result = ((value - min) / (max - min));
+    //     // console.log("normalize result = ", result)
+    //     return result;
+    // }
 
     const normlaizeLog = (state, value) => {
-        if (Math.log2(value) == "-Infinity") {
+        if (Math.log2(value) === "-Infinity") {
             // console.log("normlaizeLog: -Infinity found for state ", state)
         } else {
             return Math.log2(value);
@@ -162,7 +160,7 @@ const USAMap = () => {
         <Container>
             <Navbar color="light" light expand="md" className="p-3">
                 <Col sm={2}>
-                        <img src={covidImg} width="100" height="60"></img>
+                        <img src={covidImg} alt="COVID-19" width="100" height="60"></img>
                 </Col>
                 <Col sm={10}>
                     <Row>
@@ -172,9 +170,9 @@ const USAMap = () => {
                             </h3>
                         </Col>
                         <Col sm={3}>
-                            <img src={doctorImg} width="40" height="40"></img>
-                            <img src={handwash1Img} width="40" height="40"></img>
-                            <img src={handwash2Img} width="40" height="40"></img>
+                            <img src={doctorImg} alt="doctor" width="40" height="40"></img>
+                            <img src={handwash1Img} alt="handwash1" width="40" height="40"></img>
+                            <img src={handwash2Img} alt="handwash2" width="40" height="40"></img>
                         </Col>
                     </Row>
                 </Col>
@@ -272,10 +270,10 @@ const USAMap = () => {
             </Row>
             <Row>
                 {
-                    graphType == "bar" && <BarGraph statesCurrentData={statesCurrentData} statesCoords={statesCoords}/>
+                    graphType === "bar" && <BarGraph statesCurrentData={statesCurrentData} statesCoords={statesCoords}/>
                 }
                 {
-                    graphType == "line" && <LineGraph statesDailyData={statesDailyData} statesCoords={statesCoords}/>
+                    graphType === "line" && <LineGraph statesDailyData={statesDailyData} statesCoords={statesCoords}/>
                 }
                 
             </Row>

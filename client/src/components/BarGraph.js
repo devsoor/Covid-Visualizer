@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Card, CardBody, Col, Button, ButtonGroup, UncontrolledTooltip} from 'reactstrap';
+import React from 'react';
+import {Card, CardBody, Col} from 'reactstrap';
 import {Bar} from 'react-chartjs-2';
 import 'chartjs-plugin-datalabels';
 
@@ -24,10 +24,6 @@ const BarGraph = (props) => {
     statesCurrentData.slice().sort().map((statenum, i) => {posArr.push(statenum.positive)});
     return posArr;
   }
-  
-    const randomColorGenerator = function () { 
-      return '#' + (Math.random().toString(16) + '0000000').slice(2, 8); 
-    };
 
     const data = {
         labels: getStateName(),

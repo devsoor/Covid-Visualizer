@@ -1,11 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Line} from 'react-chartjs-2';
-import { CardTitle, Card, CardBody, Col} from 'reactstrap';
+import {Col} from 'reactstrap';
 import 'chartjs-plugin-datalabels';
 
 const StateGraph = (props) => {
     const {stateClicked, statesDailyData} = props;
-    const [numDays, setNumDays] = useState();
 
     const confirmedCases = () => {
         const caseArr = []
@@ -40,9 +39,9 @@ const StateGraph = (props) => {
         ]
     }
 
-    const options = {
-        maintainAspectRatio: true	// Don't maintain w/h ratio
-    }
+    // const options = {
+    //     maintainAspectRatio: true	// Don't maintain w/h ratio
+    // }
     
     return <Col>
                 <h3>{stateClicked}: Growth over past 3 weeks</h3>

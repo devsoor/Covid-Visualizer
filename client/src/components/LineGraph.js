@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, CardBody, Col, Button, ButtonGroup, UncontrolledTooltip} from 'reactstrap';
+import {Card, CardBody, Col} from 'reactstrap';
 import {Line} from 'react-chartjs-2';
 import 'chartjs-plugin-datalabels';
 
@@ -10,7 +10,7 @@ const LineGraph = (props) => {
     };
 
     const confirmedCases = () => {
-        const allStateArr = [];
+        // const allStateArr = [];
         const data = {
           labels: [],
         //   backgroundColor: randomColorGenerator(),
@@ -65,7 +65,7 @@ const LineGraph = (props) => {
                 datalabels: {
                 align: 'end',
                 anchor: 'end',
-                rotation: 270,
+                // rotation: 270,
                 formatter: function(value, context) {
                         return (value.toLocaleString());
                 },

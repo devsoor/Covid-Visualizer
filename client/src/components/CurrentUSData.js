@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import { Col, Row, Card, CardBody, Input } from 'reactstrap';
+import { Col, Row, Card, CardBody} from 'reactstrap';
 
 const CurrentUSData = (props) => {
-    const [isChecked, setIsChecked] = useState(true);
+    const [isChecked, setIsChecked] = useState(false);
 
     const data = props.currentUSData;
     const positiveTests = data.positive ? data.positive.toLocaleString() : 0;
-    const negativeTests = data.negative ? data.negative.toLocaleString() : 0;
+    // const negativeTests = data.negative ? data.negative.toLocaleString() : 0;
     const hospitalizedTests = data.hospitalized ? data.hospitalized.toLocaleString() : 0;
     const deaths = data.death ? data.death.toLocaleString() : 0;
     const totalWorldCases = data.total ? data.total.toLocaleString() : 0;
@@ -27,13 +27,13 @@ const CurrentUSData = (props) => {
                   </div>
                   <div className="ml-2 align-self-center">
                     <h4 className="mb-0 text-white">{positiveTests}</h4>
-                    <small className="text-white op-5">Positive</small>
+                    <small className="text-white op-5">Confirmed</small>
                   </div>
                 </div>
               </CardBody>
             </Card>
           </Col>
-  
+{/*   
           <Col>
             <Card className="bg-danger">
               <CardBody>
@@ -49,7 +49,7 @@ const CurrentUSData = (props) => {
               </CardBody>
             </Card>
           </Col>
-  
+   */}
           <Col>
             <Card className="bg-warning">
               <CardBody>
@@ -59,7 +59,7 @@ const CurrentUSData = (props) => {
                   </div>
                   <div className="ml-2 align-self-center">
                     <h3 className="mb-0 text-white">{hospitalizedTests}</h3>
-                    <small className="text-white op-5">Hospitialized</small>
+                    <small className="text-white op-5">Hospitalized</small>
                   </div>
                 </div>
               </CardBody>
