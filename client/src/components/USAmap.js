@@ -266,15 +266,8 @@ const USAMap = () => {
             </Row>
             <Row className="justify-content-center">
                <ButtonGroup className="pull-right" >
-                    <UncontrolledTooltip placement="top" target="showBarGraph">
-                        One State
-                    </UncontrolledTooltip>
-                    <UncontrolledTooltip placement="top" target="showLineGraph">
-                    All States
-                    </UncontrolledTooltip>
-
-                    <Button id="showBarGraph" className="bg-primary text-white" outline style={{border:1}} onClick={()=> setGraphType("bar")}>Bar Graph</Button>
-                    <Button id="showLineGraph"  className="bg-success text-white" outline style={{border:1}} onClick={()=>setGraphType("line")}>Line Graph</Button>
+                    <Button id="showBarGraph" className="bg-primary text-white" outline style={{border:1}} onClick={()=> setGraphType("bar")}>View All States</Button>
+                    <Button id="showLineGraph"  className="bg-success text-white" outline style={{border:1}} onClick={()=>setGraphType("line")}>View All States Over Time</Button>
                 </ButtonGroup>
             </Row>
             <Row>
@@ -282,7 +275,7 @@ const USAMap = () => {
                     graphType == "bar" && <BarGraph statesCurrentData={statesCurrentData} statesCoords={statesCoords}/>
                 }
                 {
-                    graphType == "line" && <LineGraph statesCurrentData={statesCurrentData} statesCoords={statesCoords}/>
+                    graphType == "line" && <LineGraph statesDailyData={statesDailyData} statesCoords={statesCoords}/>
                 }
                 
             </Row>
