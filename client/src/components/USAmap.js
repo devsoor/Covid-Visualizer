@@ -165,7 +165,7 @@ const USAMap = () => {
                 <Col sm={10}>
                     <Row>
                         <Col sm={9}>
-                            <h3 className="text-dark  p-3">
+                            <h3 className="text-dark p-3">
                                 COVID-19 Tests and Results as of {today}
                             </h3>
                         </Col>
