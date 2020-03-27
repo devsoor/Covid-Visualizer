@@ -10,7 +10,6 @@ const LineGraph = (props) => {
     };
 
     const confirmedCases = () => {
-        // const allStateArr = [];
         const data = {
           labels: [],
         //   backgroundColor: randomColorGenerator(),
@@ -52,7 +51,6 @@ const LineGraph = (props) => {
       return data;
     }
 
-
     return <Col>
           <Card>
         <CardBody>
@@ -63,12 +61,14 @@ const LineGraph = (props) => {
                 labels: false,
                 clamp: true,
                 datalabels: {
-                align: 'end',
-                anchor: 'end',
-                // rotation: 270,
-                formatter: function(value, context) {
-                        return (value.toLocaleString());
-                },
+                    display: false,
+                    align: 'end',
+                    fontColor: 'red',
+                    anchor: 'end',
+                    // rotation: 270,
+                    formatter: function(value, context) {
+                            return (value.toLocaleString());
+                    },
                 },
                 borderRadius: 4,
                 color: 'white',
@@ -87,6 +87,7 @@ const LineGraph = (props) => {
                 ],
                 'yAxes': [
                     {
+                        'type': "logarithmic",
                         'gridLines': { 'display': true },
                         'ticks': { 
                             'fontFamily': 'Poppins',
